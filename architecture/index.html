@@ -552,6 +552,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="1. Conversational layer (FastAPI + LangGraph)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#service-classes-v0210-solid-refactor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Service classes (v0.21.0 SOLID refactor)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -864,6 +881,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="1. Conversational layer (FastAPI + LangGraph)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#service-classes-v0210-solid-refactor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Service classes (v0.21.0 SOLID refactor)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -1030,6 +1064,76 @@ the bottom.</p>
 </table>
 <p>State is persisted to PostgreSQL via <code>langgraph-checkpoint-postgres</code> so a
 killed agent pod resumes mid-flight.</p>
+<h4 id="service-classes-v0210-solid-refactor">Service classes (v0.21.0 SOLID refactor)<a class="headerlink" href="#service-classes-v0210-solid-refactor" title="Permanent link">&para;</a></h4>
+<p>The route handlers (<code>chat.py</code>, <code>reservations.py</code>) and the FastAPI
+lifespan are intentionally thin — non-trivial logic lives behind
+focused service classes in <code>src/api/services/</code>, <code>src/api/lifecycle.py</code>,
+<code>src/api/nats_consumer.py</code>, <code>src/agent/parsers.py</code>, and
+<code>src/state/machine.py</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Class</th>
+<th>Pattern</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ResponseBuilder</code></td>
+<td>Extract Class + DI</td>
+<td>Compose the chat/stream response from a graph result + injected continuations</td>
+</tr>
+<tr>
+<td><code>ProvisioningResultParser</code> / <code>ProvisioningOrchestrator</code></td>
+<td>Parser + Value Object</td>
+<td>Turn <code>tool_outputs</code> into a typed <code>ProvisioningRequest</code>, dispatch to the deterministic provisioner, return a <code>ProvisioningSummary</code></td>
+</tr>
+<tr>
+<td><code>ReservationReleaseService</code></td>
+<td>Facade + DI</td>
+<td>Compose DB lookup + state advancement + (BM-only) NetBox cleanup for the post-<code>delete_from_gitops</code> continuation</td>
+</tr>
+<tr>
+<td><code>ReservationStateMachine</code></td>
+<td>State Machine</td>
+<td>OO facade over the transition table; <code>plan_release()</code>, <code>plan_release_finalization()</code>, <code>find_path()</code> BFS</td>
+</tr>
+<tr>
+<td><code>InfrastructureCleanupService</code></td>
+<td>Strategy + Composite + DIP</td>
+<td><code>CleanupStep</code> protocol with <code>GitOpsCleanup</code> / <code>VsphereVmCleanup</code> / <code>KubernetesSecretCleanup</code> concrete steps</td>
+</tr>
+<tr>
+<td><code>LifecycleManager</code></td>
+<td>Composition + Builder</td>
+<td>9 startup phases; <code>start(app)</code> composes them, <code>stop()</code> unwinds</td>
+</tr>
+<tr>
+<td><code>NatsConsumer</code> / <code>NatsEventParser</code> / <code>ReservationReclaimedHandler</code></td>
+<td>Strategy + DI</td>
+<td>NATS JetStream subscription with parsed-event dispatch</td>
+</tr>
+<tr>
+<td><code>ResourceSpecParser</code></td>
+<td>Parser + Value Object</td>
+<td>Free-form English → <code>ProvisionSpec(env_type, ResourceSpec)</code></td>
+</tr>
+<tr>
+<td><code>GitConflictResolver</code></td>
+<td>Extract Class</td>
+<td>Encapsulates fetch + reset + reapply for rejected GitOps pushes</td>
+</tr>
+<tr>
+<td><code>DatabaseContext</code></td>
+<td>Service Locator</td>
+<td>Injectable <code>session_factory</code> + <code>env_id_generator</code> for unit tests</td>
+</tr>
+</tbody>
+</table>
+<p>Adding new behavior (e.g. another infrastructure backend, another NATS
+event subject, another LLM-judge rubric) is a new class plus
+registration — the existing classes are not modified (Open/Closed).</p>
 <h3 id="2-gitops-reconciliation-flux-kustomize-helm">2. GitOps reconciliation (Flux + Kustomize + Helm)<a class="headerlink" href="#2-gitops-reconciliation-flux-kustomize-helm" title="Permanent link">&para;</a></h3>
 <p>The agent never touches the live cluster directly for provisioning. It
 <strong>commits</strong> to <code>infra-provisioning</code>, and Flux reconciles. This keeps the
