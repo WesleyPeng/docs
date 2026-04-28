@@ -51,6 +51,31 @@ The agent is a LangGraph state machine with five nodes:
 State is persisted to PostgreSQL via `langgraph-checkpoint-postgres` so a
 killed agent pod resumes mid-flight.
 
+#### Service classes (v0.21.0 SOLID refactor)
+
+The route handlers (`chat.py`, `reservations.py`) and the FastAPI
+lifespan are intentionally thin — non-trivial logic lives behind
+focused service classes in `src/api/services/`, `src/api/lifecycle.py`,
+`src/api/nats_consumer.py`, `src/agent/parsers.py`, and
+`src/state/machine.py`:
+
+| Class | Pattern | Role |
+|-------|---------|------|
+| `ResponseBuilder` | Extract Class + DI | Compose the chat/stream response from a graph result + injected continuations |
+| `ProvisioningResultParser` / `ProvisioningOrchestrator` | Parser + Value Object | Turn `tool_outputs` into a typed `ProvisioningRequest`, dispatch to the deterministic provisioner, return a `ProvisioningSummary` |
+| `ReservationReleaseService` | Facade + DI | Compose DB lookup + state advancement + (BM-only) NetBox cleanup for the post-`delete_from_gitops` continuation |
+| `ReservationStateMachine` | State Machine | OO facade over the transition table; `plan_release()`, `plan_release_finalization()`, `find_path()` BFS |
+| `InfrastructureCleanupService` | Strategy + Composite + DIP | `CleanupStep` protocol with `GitOpsCleanup` / `VsphereVmCleanup` / `KubernetesSecretCleanup` concrete steps |
+| `LifecycleManager` | Composition + Builder | 9 startup phases; `start(app)` composes them, `stop()` unwinds |
+| `NatsConsumer` / `NatsEventParser` / `ReservationReclaimedHandler` | Strategy + DI | NATS JetStream subscription with parsed-event dispatch |
+| `ResourceSpecParser` | Parser + Value Object | Free-form English → `ProvisionSpec(env_type, ResourceSpec)` |
+| `GitConflictResolver` | Extract Class | Encapsulates fetch + reset + reapply for rejected GitOps pushes |
+| `DatabaseContext` | Service Locator | Injectable `session_factory` + `env_id_generator` for unit tests |
+
+Adding new behavior (e.g. another infrastructure backend, another NATS
+event subject, another LLM-judge rubric) is a new class plus
+registration — the existing classes are not modified (Open/Closed).
+
 ### 2. GitOps reconciliation (Flux + Kustomize + Helm)
 
 The agent never touches the live cluster directly for provisioning. It

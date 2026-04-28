@@ -108,7 +108,7 @@ The platform is split across six focused repositories:
 | Phase | Theme | Status |
 |-------|-------|--------|
 | 0 | Foundation (repos, Jenkins, PostgreSQL, NATS, Flux, GHCR) | Done |
-| 1 | Agent core (LangGraph, 30 tools, 3-tier LLM, 297 tests) | Done |
+| 1 | Agent core (LangGraph, 30 tools, 3-tier LLM, 488 tests; v0.21.0 SOLID refactor) | Done |
 | 2 | Infrastructure (Kustomize, Ansible, Sealed Secrets) | Done |
 | 3 | Web UI + CI/CD shared library | Done |
 | 4 | Reporting (OpenSearch, SonarQube, Prometheus, LangFuse) | Done |

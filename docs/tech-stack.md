@@ -36,7 +36,7 @@
 
 | Image | Tag |
 |-------|-----|
-| `ghcr.io/wesleypeng/agentic-qa-agent` | v0.20.0 |
+| `ghcr.io/wesleypeng/agentic-qa-agent` | v0.21.0 |
 | `ghcr.io/wesleypeng/qa-dashboard` | v0.9.1 |
 | `ghcr.io/wesleypeng/ansible-runner` | v0.3.5 |
 | `ghcr.io/wesleypeng/agentic-taf` | v1.0.0 |
