@@ -11,7 +11,7 @@ T.10 (LLM-judge expansion) just merged.
 | Phase | Theme | Status | Highlights |
 |-------|-------|--------|-----------|
 | **0** | Foundation | Done | 6 GitHub repos, Jenkins JCasC, PostgreSQL HA, NATS JetStream cluster, Flux bootstrap, GHCR image pipeline |
-| **1** | Agent core | Done | LangGraph 5-node graph, 30 tools (19 LLM-accessible), 3-tier LLM router, FastAPI app, 297 tests across 5 categories |
+| **1** | Agent core | Done | LangGraph 5-node graph, 30 tools (19 LLM-accessible), 3-tier LLM router, FastAPI app, 488 tests across 5 categories; v0.21.0 SOLID/SoC/KISS refactor cycle complete (10 service classes extracted from monolithic route handlers) |
 | **2** | Infrastructure | Done | 6 Kustomize bases, 8 Ansible roles (`common`, `vm-provision`, `bare-metal-provision`, `vm-teardown`, `bare-metal-teardown`, `kubernetes-namespace`, `observability-agent`, `test-harness`) |
 | **3** | UI + CI/CD | Done | React/TypeScript dashboard (7 pages), Jenkins shared library (8 steps), GitHub Actions workflows |
 | **4** | Reporting & analytics | Done | OpenSearch + ISM lifecycle, SonarQube, kube-prometheus-stack, Fluent Bit, LangFuse self-hosted |
