@@ -2,12 +2,15 @@
 
 ## The author
 
-**Wesley Peng** &mdash; software engineer focused on test automation,
-LLM agents, and infrastructure-as-code. The Agentic QA Platform is a
-personal/professional project that explores how a conversational LLM
-agent can replace ticket-driven test environment workflows.
+**Wesley Peng** &mdash; software engineering veteran with broadened views on the software testing
+field. Test automation evangelist leveraging expertise to build modern automation frameworks and
+platforms. Passionate about GitOps, cloud-native technologies, and AI agents.
+
+Currently exploring how a conversational LLM agent can replace ticket-driven test environment
+workflows &mdash; bridging the gap between infrastructure-as-code and intelligent test operations.
 
 [GitHub: WesleyPeng](https://github.com/WesleyPeng){ .md-button }
+[LinkedIn: wesley-peng](https://linkedin.com/in/wesley-peng){ .md-button }
 [Email: wesley.peng@live.com](mailto:wesley.peng@live.com){ .md-button }
 
 ## Why is most of the code private?
@@ -47,18 +50,3 @@ If you need read access for collaboration or evaluation:
 | The `agentic-taf` framework | [LGPL-3.0](https://github.com/WesleyPeng/agentic-taf/blob/main/LICENSE) |
 | The five private repos | All-rights-reserved (until publicly released) |
 | Architecture diagrams (SVG) | CC BY 4.0 |
-
-## Contributing to this site
-
-The site source lives at
-[github.com/WesleyPeng/docs](https://github.com/WesleyPeng/docs). Pull
-requests are welcome &mdash; particularly for typos, broken links, or
-clarifications. Substantive content changes (new pages, restructured
-navigation) are best discussed in an issue first.
-
-## Build details
-
-This site is built with [MkDocs Material](https://squidfunk.github.io/mkdocs-material/)
-and deployed via GitHub Actions on push to `master`. The legacy
-[SW QA Automation Recommendations Assessment Report](assessment-report/index.html)
-is preserved unchanged at `/docs/assessment-report/`.

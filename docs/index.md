@@ -1,7 +1,5 @@
 ---
 title: Home
-hide:
-  - navigation
 ---
 
 # Agentic QA Platform
