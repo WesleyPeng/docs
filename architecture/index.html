@@ -12,7 +12,7 @@
         <meta name="author" content="Wesley Peng">
       
       
-        <link rel="canonical" href="https://wesleypeng.github.io/docs/architecture/">
+        <link rel="canonical" href="https://wesleypeng.github.io/architecture/">
       
       
         <link rel="prev" href="..">
@@ -391,10 +391,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#service-classes-v0210-solid-refactor" class="md-nav__link">
+  <a href="#service-classes-v0210-v022x-solid-refactors" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Service classes (v0.21.0 SOLID refactor)
+        Service classes (v0.21.0 + v0.22.x SOLID refactors)
       
     </span>
   </a>
@@ -693,10 +693,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#service-classes-v0210-solid-refactor" class="md-nav__link">
+  <a href="#service-classes-v0210-v022x-solid-refactors" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Service classes (v0.21.0 SOLID refactor)
+        Service classes (v0.21.0 + v0.22.x SOLID refactors)
       
     </span>
   </a>
@@ -858,7 +858,7 @@ the bottom.</p>
 </tr>
 <tr>
 <td><strong>Executor</strong></td>
-<td>Run the tools. 30 total tools; only 19 are exposed to the LLM (the other 11 — GitOps writes, namespace deletion, secret encryption, NATS events — are reserved for the deterministic provisioner to prevent hallucinated infrastructure changes).</td>
+<td>Run the tools. 37 total tools; a subset is exposed to the LLM (the rest — GitOps writes, namespace deletion, secret encryption, NATS events, inventory sync — are reserved for the deterministic provisioner to prevent hallucinated infrastructure changes).</td>
 </tr>
 <tr>
 <td><strong>Reflector</strong></td>
@@ -872,7 +872,7 @@ the bottom.</p>
 </table>
 <p>State is persisted to PostgreSQL via <code>langgraph-checkpoint-postgres</code> so a
 killed agent pod resumes mid-flight.</p>
-<h4 id="service-classes-v0210-solid-refactor">Service classes (v0.21.0 SOLID refactor)<a class="headerlink" href="#service-classes-v0210-solid-refactor" title="Permanent link">&para;</a></h4>
+<h4 id="service-classes-v0210-v022x-solid-refactors">Service classes (v0.21.0 + v0.22.x SOLID refactors)<a class="headerlink" href="#service-classes-v0210-v022x-solid-refactors" title="Permanent link">&para;</a></h4>
 <p>The route handlers (<code>chat.py</code>, <code>reservations.py</code>) and the FastAPI
 lifespan are intentionally thin — non-trivial logic lives behind
 focused service classes in <code>src/api/services/</code>, <code>src/api/lifecycle.py</code>,
@@ -937,11 +937,26 @@ focused service classes in <code>src/api/services/</code>, <code>src/api/lifecyc
 <td>Service Locator</td>
 <td>Injectable <code>session_factory</code> + <code>env_id_generator</code> for unit tests</td>
 </tr>
+<tr>
+<td><code>ProvisioningStrategy</code></td>
+<td>Strategy + ABC</td>
+<td>Per-env-type provisioning logic (<code>K8sStrategy</code>, <code>K8sClusterStrategy</code>, <code>BareMetalStrategy</code>, <code>VmStrategy</code>) replacing a 291-line god-function</td>
+</tr>
+<tr>
+<td><code>AnomalyHandler</code> / <code>SafetyDelayedHandler</code></td>
+<td>Strategy + Template Method</td>
+<td>Orphan detector with 5 concrete handlers and per-handler exception isolation</td>
+</tr>
+<tr>
+<td><code>EnvType</code></td>
+<td>Enum</td>
+<td>Shared <code>str, Enum</code> replacing env-type string literals scattered across modules</td>
+</tr>
 </tbody>
 </table>
 <p>Adding new behavior (e.g. another infrastructure backend, another NATS
-event subject, another LLM-judge rubric) is a new class plus
-registration — the existing classes are not modified (Open/Closed).</p>
+event subject, another env type) is a new class plus registration —
+the existing classes are not modified (Open/Closed).</p>
 <h3 id="2-gitops-reconciliation-flux-kustomize-helm">2. GitOps reconciliation (Flux + Kustomize + Helm)<a class="headerlink" href="#2-gitops-reconciliation-flux-kustomize-helm" title="Permanent link">&para;</a></h3>
 <p>The agent never touches the live cluster directly for provisioning. It
 <strong>commits</strong> to <code>infra-provisioning</code>, and Flux reconciles. This keeps the
@@ -1074,7 +1089,7 @@ LangGraph nodes can forward it to nested LLM calls.</p>
 <p>Auth is header-based (<code>X-User</code>, <code>X-Role</code>, <code>X-Team</code>) at the proxy edge,
 enforced by FastAPI middleware + <code>@require_permission(...)</code> decorators.
 LLM tool access is further restricted via an <code>LLM_TOOLS</code> allowlist
-(19 of 30 tools).</p>
+(a subset of the 37 tools).</p>
 <h2 id="key-design-decisions">Key design decisions<a class="headerlink" href="#key-design-decisions" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>State store &gt; infra-provisioning &gt; live cluster</strong> — when they disagree,
