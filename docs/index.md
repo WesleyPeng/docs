@@ -55,7 +55,7 @@ The platform is split across six focused repositories:
     ---
 
     Python LangGraph agent. 5-node graph (router → planner → executor →
-    reflector → responder), 30 LangChain tools, 3-tier LLM routing, FastAPI
+    reflector → responder), 37 LangChain tools, 3-tier LLM routing, FastAPI
     REST + WebSocket interface.
 
 -   :material-server: **infra-provisioning** *(private)*
@@ -86,7 +86,7 @@ The platform is split across six focused repositories:
 
     Test Automation Framework. Plugin-based (Selenium, Playwright, httpx,
     requests, websockets, Paramiko, LLM-judge, K8s chaos), Python 3.12,
-    LGPL-3.0. Released as v1.0.0.
+    Apache-2.0. Released as v1.0.0.
 
 </div>
 
@@ -106,7 +106,7 @@ The platform is split across six focused repositories:
 | Phase | Theme | Status |
 |-------|-------|--------|
 | 0 | Foundation (repos, Jenkins, PostgreSQL, NATS, Flux, GHCR) | Done |
-| 1 | Agent core (LangGraph, 30 tools, 3-tier LLM, 488 tests; v0.21.0 SOLID refactor) | Done |
+| 1 | Agent core (LangGraph, 37 tools, 3-tier LLM, 739 tests; v0.22.6 with SOLID refactors + Phase 10) | Done |
 | 2 | Infrastructure (Kustomize, Ansible, Sealed Secrets) | Done |
 | 3 | Web UI + CI/CD shared library | Done |
 | 4 | Reporting (OpenSearch, SonarQube, Prometheus, LangFuse) | Done |

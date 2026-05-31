@@ -44,14 +44,14 @@ The agent is a LangGraph state machine with five nodes:
 |------|---------------|
 | **Router** | Classify user intent (provision / release / extend / diagnose / query / chat). Fast keyword matcher with LLM fallback for ambiguous cases. |
 | **Planner** | Decide which tools to invoke. Hybrid: deterministic for well-known intents, LLM-driven for free-form queries. |
-| **Executor** | Run the tools. 30 total tools; only 19 are exposed to the LLM (the other 11 — GitOps writes, namespace deletion, secret encryption, NATS events — are reserved for the deterministic provisioner to prevent hallucinated infrastructure changes). |
+| **Executor** | Run the tools. 37 total tools; a subset is exposed to the LLM (the rest — GitOps writes, namespace deletion, secret encryption, NATS events, inventory sync — are reserved for the deterministic provisioner to prevent hallucinated infrastructure changes). |
 | **Reflector** | Decide whether to loop back to planner or proceed to responder. Hard cap at 20 iterations. |
 | **Responder** | Format the final response. |
 
 State is persisted to PostgreSQL via `langgraph-checkpoint-postgres` so a
 killed agent pod resumes mid-flight.
 
-#### Service classes (v0.21.0 SOLID refactor)
+#### Service classes (v0.21.0 + v0.22.x SOLID refactors)
 
 The route handlers (`chat.py`, `reservations.py`) and the FastAPI
 lifespan are intentionally thin — non-trivial logic lives behind
@@ -71,10 +71,13 @@ focused service classes in `src/api/services/`, `src/api/lifecycle.py`,
 | `ResourceSpecParser` | Parser + Value Object | Free-form English → `ProvisionSpec(env_type, ResourceSpec)` |
 | `GitConflictResolver` | Extract Class | Encapsulates fetch + reset + reapply for rejected GitOps pushes |
 | `DatabaseContext` | Service Locator | Injectable `session_factory` + `env_id_generator` for unit tests |
+| `ProvisioningStrategy` | Strategy + ABC | Per-env-type provisioning logic (`K8sStrategy`, `K8sClusterStrategy`, `BareMetalStrategy`, `VmStrategy`) replacing a 291-line god-function |
+| `AnomalyHandler` / `SafetyDelayedHandler` | Strategy + Template Method | Orphan detector with 5 concrete handlers and per-handler exception isolation |
+| `EnvType` | Enum | Shared `str, Enum` replacing env-type string literals scattered across modules |
 
 Adding new behavior (e.g. another infrastructure backend, another NATS
-event subject, another LLM-judge rubric) is a new class plus
-registration — the existing classes are not modified (Open/Closed).
+event subject, another env type) is a new class plus registration —
+the existing classes are not modified (Open/Closed).
 
 ### 2. GitOps reconciliation (Flux + Kustomize + Helm)
 
@@ -180,7 +183,7 @@ LangGraph nodes can forward it to nested LLM calls.
 Auth is header-based (`X-User`, `X-Role`, `X-Team`) at the proxy edge,
 enforced by FastAPI middleware + `@require_permission(...)` decorators.
 LLM tool access is further restricted via an `LLM_TOOLS` allowlist
-(19 of 30 tools).
+(a subset of the 37 tools).
 
 ## Key design decisions
 

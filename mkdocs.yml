@@ -1,7 +1,7 @@
 site_name: Agentic QA Platform
 site_description: LLM-powered test environment provisioning across Kubernetes, bare metal, and VMs
 site_author: Wesley Peng
-site_url: https://wesleypeng.github.io/docs/
+site_url: https://wesleypeng.github.io/
 
 repo_name: WesleyPeng/agentic-taf
 repo_url: https://github.com/WesleyPeng/agentic-taf

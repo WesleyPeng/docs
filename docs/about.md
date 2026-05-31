@@ -27,7 +27,7 @@ The **architecture, design patterns, and cross-repo coordination
 techniques** are all described publicly on this site. The
 **framework that exercises the platform**
 ([agentic-taf](https://github.com/WesleyPeng/agentic-taf)) is fully
-open source under LGPL-3.0.
+open source under Apache-2.0.
 
 ## How to access the private code
 
@@ -47,6 +47,6 @@ If you need read access for collaboration or evaluation:
 | Asset | License |
 |-------|---------|
 | This documentation site (Markdown source + theme config) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
-| The `agentic-taf` framework | [LGPL-3.0](https://github.com/WesleyPeng/agentic-taf/blob/main/LICENSE) |
+| The `agentic-taf` framework | [Apache-2.0](https://github.com/WesleyPeng/agentic-taf/blob/main/LICENSE) |
 | The five private repos | All-rights-reserved (until publicly released) |
 | Architecture diagrams (SVG) | CC BY 4.0 |

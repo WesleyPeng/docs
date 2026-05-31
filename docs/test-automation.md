@@ -51,7 +51,7 @@ imports a concrete plugin directly.
 
 | Suite | Count |
 |-------|------:|
-| Unit tests (`ut/`) | **277** |
+| Unit tests (`ut/`) | **293** |
 | API E2E tests | 21 |
 | Security E2E tests | 8 |
 | UI E2E tests (Playwright) | 10 |
@@ -162,7 +162,7 @@ dependencies. Entrypoint is `pytest`.
 
 ## License
 
-LGPL-3.0. Copyright &copy; 2017-2026 Wesley Peng.
+Apache-2.0. Copyright &copy; 2017-2026 Wesley Peng.
 
 [GitHub repository ↗](https://github.com/WesleyPeng/agentic-taf){ .md-button .md-button--primary }
 [Architecture document ↗](https://github.com/WesleyPeng/agentic-taf/blob/main/docs/architecture.md){ .md-button }
