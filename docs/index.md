@@ -23,8 +23,8 @@ Talk to the agent. Get an environment.
   request against team quotas, generates a Kustomize overlay, commits it to
   Git, lets Flux reconcile, and returns a `READY` reservation with the
   endpoints the user can use.
-- **"Provision a brand-new K8s cluster on vSphere with 1 control-plane and 1
-  worker"** → Same conversational flow, but now the agent emits a Cluster API
+- **"Provision a brand-new K8s cluster on vSphere with 1 control-plane and 2
+  workers"** → Same conversational flow, but now the agent emits a Cluster API
   + CAPV manifest, the IPAM controller assigns IPs, kubeadm bootstraps the
   control plane, Calico installs via `ClusterResourceSet`, and the user gets
   a downloadable kubeconfig.
