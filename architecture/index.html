@@ -858,7 +858,7 @@ the bottom.</p>
 </tr>
 <tr>
 <td><strong>Executor</strong></td>
-<td>Run the tools. 37 total tools; a subset is exposed to the LLM (the rest — GitOps writes, namespace deletion, secret encryption, NATS events, inventory sync — are reserved for the deterministic provisioner to prevent hallucinated infrastructure changes).</td>
+<td>Run the tools. 32 total tools; a subset is exposed to the LLM (the rest — GitOps writes, namespace deletion, secret encryption, NATS events, inventory sync — are reserved for the deterministic provisioner to prevent hallucinated infrastructure changes).</td>
 </tr>
 <tr>
 <td><strong>Reflector</strong></td>
@@ -1089,7 +1089,7 @@ LangGraph nodes can forward it to nested LLM calls.</p>
 <p>Auth is header-based (<code>X-User</code>, <code>X-Role</code>, <code>X-Team</code>) at the proxy edge,
 enforced by FastAPI middleware + <code>@require_permission(...)</code> decorators.
 LLM tool access is further restricted via an <code>LLM_TOOLS</code> allowlist
-(a subset of the 37 tools).</p>
+(a subset of the 32 tools).</p>
 <h2 id="key-design-decisions">Key design decisions<a class="headerlink" href="#key-design-decisions" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>State store &gt; infra-provisioning &gt; live cluster</strong> — when they disagree,
