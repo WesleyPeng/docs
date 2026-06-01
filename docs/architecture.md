@@ -44,7 +44,7 @@ The agent is a LangGraph state machine with five nodes:
 |------|---------------|
 | **Router** | Classify user intent (provision / release / extend / diagnose / query / chat). Fast keyword matcher with LLM fallback for ambiguous cases. |
 | **Planner** | Decide which tools to invoke. Hybrid: deterministic for well-known intents, LLM-driven for free-form queries. |
-| **Executor** | Run the tools. 37 total tools; a subset is exposed to the LLM (the rest — GitOps writes, namespace deletion, secret encryption, NATS events, inventory sync — are reserved for the deterministic provisioner to prevent hallucinated infrastructure changes). |
+| **Executor** | Run the tools. 32 total tools; a subset is exposed to the LLM (the rest — GitOps writes, namespace deletion, secret encryption, NATS events, inventory sync — are reserved for the deterministic provisioner to prevent hallucinated infrastructure changes). |
 | **Reflector** | Decide whether to loop back to planner or proceed to responder. Hard cap at 20 iterations. |
 | **Responder** | Format the final response. |
 
@@ -183,7 +183,7 @@ LangGraph nodes can forward it to nested LLM calls.
 Auth is header-based (`X-User`, `X-Role`, `X-Team`) at the proxy edge,
 enforced by FastAPI middleware + `@require_permission(...)` decorators.
 LLM tool access is further restricted via an `LLM_TOOLS` allowlist
-(a subset of the 37 tools).
+(a subset of the 32 tools).
 
 ## Key design decisions
 

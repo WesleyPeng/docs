@@ -4,7 +4,7 @@
 
 - **[agentic-taf on GitHub](https://github.com/WesleyPeng/agentic-taf)**
   &mdash; the test automation framework. Apache-2.0, Python 3.12+, 293 unit
-  tests, 9 plugins.
+  tests, 8 plugins + 1 stub (Appium).
 - **[Architecture diagram (SVG)](https://raw.githubusercontent.com/WesleyPeng/agentic-taf/main/architecture-diagram.svg)**
   &mdash; the multi-layer plugin architecture.
 - **[Implementation plan](https://github.com/WesleyPeng/agentic-taf/blob/main/docs/implementation-plan.md)**

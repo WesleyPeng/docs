@@ -11,15 +11,15 @@ T.10 (LLM-judge expansion) just merged.
 | Phase | Theme | Status | Highlights |
 |-------|-------|--------|-----------|
 | **0** | Foundation | Done | 6 GitHub repos, Jenkins JCasC, PostgreSQL HA, NATS JetStream cluster, Flux bootstrap, GHCR image pipeline |
-| **1** | Agent core | Done | LangGraph 5-node graph, 37 tools, 3-tier LLM router, FastAPI app, 739 tests across 5 categories; v0.22.6 with two SOLID/SoC/KISS refactor cycles complete + Phase 10 (multi-vCenter CredentialStore, PlacementTarget, inventory sync) |
-| **2** | Infrastructure | Done | 6 Kustomize bases, 8 Ansible roles (`common`, `vm-provision`, `bare-metal-provision`, `vm-teardown`, `bare-metal-teardown`, `kubernetes-namespace`, `observability-agent`, `test-harness`) |
+| **1** | Agent core | Done | LangGraph 5-node graph, 32 tools, 3-tier LLM router, FastAPI app, 739 tests across 5 categories; v0.22.27 with two SOLID/SoC/KISS refactor cycles complete + Phase 10 (multi-vCenter CredentialStore, PlacementTarget, inventory sync) |
+| **2** | Infrastructure | Done | 7 Kustomize bases, 8 Ansible roles (`common`, `vm-provision`, `bare-metal-provision`, `vm-teardown`, `bare-metal-teardown`, `kubernetes-namespace`, `observability-agent`, `test-harness`) |
 | **3** | UI + CI/CD | Done | React/TypeScript dashboard (7 pages), Jenkins shared library (8 steps), GitHub Actions workflows |
 | **4** | Reporting & analytics | Done | OpenSearch + ISM lifecycle, SonarQube, kube-prometheus-stack, Fluent Bit, LangFuse self-hosted |
 | **5** | Advanced agent | Done | TTL supervisor, heartbeat monitor, orphan detector with 1-hour safety delay, capacity planner, priority preemption, NATS-driven queue processor |
 | **6** | Security | Done | RBAC (5 roles × 11 permissions), Sealed Secrets, network policies, K8s audit logging baked into kubeadm bootstrap |
 | **7** | Integration testing | Done | E2E provisioning flows, chaos experiments (pod kill, DB failover, NATS partition, Flux suspend), DR runbooks |
 | **8** | Cluster API | **Near-complete** | CAPV E2E validated; CNI auto-install via `ClusterResourceSet`; kubeconfig endpoint; force-cleanup for stuck deletions; Ansible VM pipeline. **Remaining: Task 8.9 — Metal3 + NetBox `BareMetalHost` integration.** |
-| **9** | Test automation | **Near-complete** | Agentic-TAF v1.0.0 released. T.1-T.10 merged: 293 unit tests, 65 E2E (pytest), 10 BDD (behave), 8 plugins implemented + 1 stub (Appium). T.10 added domain rubrics, shared `llm_judge` fixture, ground-truth tests. F.1-F.4 deferred. |
+| **9** | Test automation | **Near-complete** | Agentic-TAF v1.0.0 released. T.1-T.10 merged: 293 unit tests, 63 E2E (pytest), 10 BDD (behave), 8 plugins implemented + 1 stub (Appium). T.10 added domain rubrics, shared `llm_judge` fixture, ground-truth tests. F.1-F.4 deferred. |
 | Preprod | Validation | Done | 3-node kubeadm cluster operational, 11 HelmReleases reconciled, all P.1-P.13 validation checks passed |
 
 ## Phase 9 — Test automation in detail

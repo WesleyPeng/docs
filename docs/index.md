@@ -55,7 +55,7 @@ The platform is split across six focused repositories:
     ---
 
     Python LangGraph agent. 5-node graph (router → planner → executor →
-    reflector → responder), 37 LangChain tools, 3-tier LLM routing, FastAPI
+    reflector → responder), 32 LangChain tools, 3-tier LLM routing, FastAPI
     REST + WebSocket interface.
 
 -   :material-server: **infra-provisioning** *(private)*
@@ -106,7 +106,7 @@ The platform is split across six focused repositories:
 | Phase | Theme | Status |
 |-------|-------|--------|
 | 0 | Foundation (repos, Jenkins, PostgreSQL, NATS, Flux, GHCR) | Done |
-| 1 | Agent core (LangGraph, 37 tools, 3-tier LLM, 739 tests; v0.22.6 with SOLID refactors + Phase 10) | Done |
+| 1 | Agent core (LangGraph, 32 tools, 3-tier LLM, 739 tests; v0.22.27 with SOLID refactors + Phase 10) | Done |
 | 2 | Infrastructure (Kustomize, Ansible, Sealed Secrets) | Done |
 | 3 | Web UI + CI/CD shared library | Done |
 | 4 | Reporting (OpenSearch, SonarQube, Prometheus, LangFuse) | Done |
